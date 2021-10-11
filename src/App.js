@@ -1,23 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+
+  const [numberOfHashTags, setNumberOfHashTags] = useState(0)
+
+  const handleChange = (evt) => {
+    let hashtags = evt.target.value
+
+    hashtags = hashtags.replace(" ", "");
+    hashtags = hashtags.replace(new RegExp("\r?\n", "g"), ",");
+
+    let hashtags_arr = hashtags.split("#");
+
+    setNumberOfHashTags(hashtags_arr.length-1)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <textarea rows="20" onChange={handleChange} style={{ width: 500 }} />
+      <p>
+        Number of hashtags used: {numberOfHashTags} / 30
+      </p>
     </div>
   );
 }
