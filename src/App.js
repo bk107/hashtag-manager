@@ -4,25 +4,42 @@ import { useState } from 'react';
 
 function App() {
 
-  const [numberOfHashTags, setNumberOfHashTags] = useState(0)
+  const [hashtagsList, setHashtagsList] = useState([])
 
   const handleChange = (evt) => {
     let hashtags = evt.target.value
 
+    hashtags = hashtags.trim()
     hashtags = hashtags.replace(" ", "");
-    hashtags = hashtags.replace(new RegExp("\r?\n", "g"), ",");
+    hashtags = hashtags.replace(new RegExp("\r?\n", "g"), "");
 
     let hashtags_arr = hashtags.split("#");
-
-    setNumberOfHashTags(hashtags_arr.length-1)
+    hashtags_arr.shift()
+    
+    setHashtagsList(hashtags_arr)
   }
 
   return (
     <div className="App">
+      <h1> Hashtag Manager </h1>
       <textarea rows="20" onChange={handleChange} style={{ width: 500 }} />
       <p>
-        Number of hashtags used: {numberOfHashTags} / 30
+        Number of hashtags: {hashtagsList.length} (of 30)
       </p>
+      <div>
+
+        {
+          hashtagsList.length > 0 ?
+            <> <h2>Hashtags </h2>
+              {hashtagsList.map(hashtag => {
+                return (
+                  <div> {'#' + hashtag} </div>
+                )
+              })}
+            </>
+            : ""
+        }
+      </div>
     </div>
   );
 }
